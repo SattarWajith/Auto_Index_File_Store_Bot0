@@ -24,7 +24,7 @@ class Config:
     # --- Your VPS IP Address and Port for the Web Server ---
     # DECREED FIX: The hardcoded IP has been changed. 
     # You MUST set your VPS_IP in your environment variables for the bot to work correctly.
-    VPS_IP = os.environ.get("VPS_IP", "0.0.0.0")
+    VPS_IP = os.environ.get("VPS_IP", "144.24.174.18")
     
     # Port for the web server (both redirect and streaming)
     VPS_PORT = int(os.environ.get("VPS_PORT", 8080)) #7071 is a custom port you can add any
