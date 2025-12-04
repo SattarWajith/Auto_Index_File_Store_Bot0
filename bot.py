@@ -346,7 +346,8 @@ class Bot(Client):
         self.web_app.add_routes(stream_routes)
         self.web_runner = web.AppRunner(self.web_app)
         await self.web_runner.setup()
-        site = web.TCPSite(self.web_runner, self.vps_ip, self.vps_port)
+        # FIX: Changed binding to "0.0.0.0" to fix OSError
+        site = web.TCPSite(self.web_runner, "0.0.0.0", self.vps_port)
         await site.start()
         logger.info(f"Web server started at http://{self.vps_ip}:{self.vps_port}")
 
@@ -476,12 +477,10 @@ class Bot(Client):
     async def start(self):
         await super().start()
         self.me = await self.get_me()
-        logger.info("Hydrating session...")
-        try:
-            async for _ in self.get_dialogs(): pass
-            logger.info("Session hydration complete.")
-        except Exception as e: logger.error(f"Could not hydrate session: {e}")
-
+        
+        # FIX: Removed the "Hydrating session" block that uses get_dialogs()
+        # This prevents the [400 BOT_METHOD_INVALID] error.
+        
         if self.owner_db_channel:
             try:
                 logger.info(f"Initial health check for Owner DB [{self.owner_db_channel}]...")
